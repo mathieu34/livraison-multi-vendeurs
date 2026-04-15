@@ -1,17 +1,20 @@
-# backend/models/user.py
-from sqlalchemy import Column, Integer, String, Enum
+from sqlalchemy import Column, String, Enum as SAEnum
+from sqlalchemy.dialects.postgresql import UUID
 from database import Base
+import uuid
 import enum
 
 class UserRole(str, enum.Enum):
-    CLIENT = "client"
-    VENDEUR = "vendeur"
-    LIVREUR = "livreur"
-    ADMIN = "admin"
+    CLIENT   = "client"
+    VENDEUR  = "vendeur"
+    LIVREUR  = "livreur"
+    ADMIN    = "admin"
 
 class User(Base):
     __tablename__ = "users"
-    id = Column(Integer, primary_key=True, index=True)
-    email = Column(String, unique=True, index=True, nullable=False)
-    hashed_password = Column(String, nullable=False)
-    role = Column(String, default=UserRole.CLIENT) # Gestion des rôles
+
+    id            = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    name          = Column(String(100), nullable=False)
+    email         = Column(String(255), unique=True, index=True, nullable=False)
+    password_hash = Column(String, nullable=False)
+    role          = Column(SAEnum(UserRole), default=UserRole.CLIENT, nullable=False)
