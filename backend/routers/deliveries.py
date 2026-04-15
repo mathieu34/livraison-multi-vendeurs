@@ -24,7 +24,7 @@ def get_my_deliveries(
     db: Session = Depends(get_db),
     user: dict = Depends(require_roles("livreur")),
 ):
-    return {"success": True, "data": delivery_service.get_deliveries_by_livreur(db, user["id"])}
+    return {"success": True, "data": delivery_service.get_deliveries_by_livreur(db, user["sub"])}
 
 
 @router.get("/livreurs/available")
@@ -67,7 +67,7 @@ def update_status(
 ):
     delivery = delivery_service.update_status(
         db, delivery_id, body.status,
-        user_id=user["id"], user_role=user["role"], position=body.position,
+        user_id=user["sub"], user_role=user["role"], position=body.position,
     )
     return {"success": True, "data": {c.name: getattr(delivery, c.name) for c in delivery.__table__.columns}}
 

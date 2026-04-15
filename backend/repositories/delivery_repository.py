@@ -65,7 +65,7 @@ class DeliveryRepository:
             order_id=order_id,
             livreur_id=livreur_id,
             address=address,
-            status="en_attente",
+            status="assignee",
         )
         db.add(delivery)
         db.commit()

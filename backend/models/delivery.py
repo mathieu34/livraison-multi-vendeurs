@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import Column, String, Text, Numeric, Integer, DateTime, ForeignKey
+from sqlalchemy import Column, String, Text, Numeric, Integer, DateTime, ForeignKey, Computed
 from sqlalchemy.sql import func
 from database import Base
 
@@ -25,7 +25,7 @@ class OrderItem(Base):
     quantity = Column(Integer, nullable=False)
     unit_price = Column(Numeric(10, 2), nullable=False)
     # subtotal est calculé en PostgreSQL (GENERATED ALWAYS AS), lu en lecture seule
-    subtotal = Column(Numeric(10, 2))
+    subtotal = Column(Numeric(10, 2), Computed("quantity * unit_price", persisted=True))
 
 
 class Delivery(Base):

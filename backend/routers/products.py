@@ -41,7 +41,7 @@ def create(
         description=body.description,
         price=body.price,
         stock=body.stock,
-        vendor_id=user["id"],
+        vendor_id=user["sub"],
         category_id=body.category_id,
     )
     return {"success": True, "data": product}
@@ -55,7 +55,7 @@ def update(
     user: dict = Depends(require_roles("vendeur", "admin")),
 ):
     product = product_service.update_product(
-        db, product_id, body.model_dump(exclude_none=True), user["id"], user["role"]
+        db, product_id, body.model_dump(exclude_none=True), user["sub"], user["role"]
     )
     return {"success": True, "data": product}
 
@@ -66,5 +66,5 @@ def delete(
     db: Session = Depends(get_db),
     user: dict = Depends(require_roles("vendeur", "admin")),
 ):
-    product_service.delete_product(db, product_id, user["id"], user["role"])
+    product_service.delete_product(db, product_id, user["sub"], user["role"])
     return {"success": True, "message": "Produit supprimé"}

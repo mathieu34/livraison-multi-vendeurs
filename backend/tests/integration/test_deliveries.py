@@ -29,7 +29,7 @@ class TestAssignLivreur:
             headers={"Authorization": token_for(admin)},
         )
         assert res.status_code == 201
-        assert res.json()["data"]["status"] == "en_attente"
+        assert res.json()["data"]["status"] == "assignee"
 
     def test_refuse_livraison_deja_existante(self, client, db):
         admin = create_user(db, "admin")
