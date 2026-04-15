@@ -1,24 +1,47 @@
-# docker-compose.yml à la racine
 services:
-  db:
-    image: postgres:15
-    container_name: delivery_db
-    restart: always
+  postgres:
+    image: postgres:16-alpine
+    container_name: livraison_db
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: delivery_platform
+      POSTGRES_DB: livraison_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-  api:
+  backend:
     build: ./backend
-    container_name: delivery_api
+    container_name: livraison_backend
     ports:
       - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/livraison_db
+      JWT_SECRET: dev_secret_change_in_prod
+      PLATFORM_COMMISSION: "0.10"
+    depends_on:
+      postgres:
+        condition: service_healthy
     volumes:
       - ./backend:/app
-    environment:
-      - DATABASE_URL=postgresql://user:password@db:5432/delivery_platform
+
+  frontend:
+    build: ./frontend
+    container_name: livraison_frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
     depends_on:
-      - db
+      - backend
+
+volumes:
+  postgres_data:

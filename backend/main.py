@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import engine, Base
-from routers import auth
+from routers import auth, products, deliveries
 
 # Créer les tables au démarrage
 Base.metadata.create_all(bind=engine)
@@ -20,7 +20,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Dev 1 — authentification
 app.include_router(auth.router)
+
+# Dev 2 — produits et livraisons
+app.include_router(products.router)
+app.include_router(deliveries.router)
 
 @app.get("/api/health")
 def health():
