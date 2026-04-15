@@ -1,0 +1,24 @@
+# docker-compose.yml à la racine
+services:
+  db:
+    image: postgres:15
+    container_name: delivery_db
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: delivery_platform
+    ports:
+      - "5432:5432"
+
+  api:
+    build: ./backend
+    container_name: delivery_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - DATABASE_URL=postgresql://user:password@db:5432/delivery_platform
+    depends_on:
+      - db
