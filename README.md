@@ -121,31 +121,6 @@ status (enum)
 
 ---
 
-## Conventions GIT / Branches
-
-```text
-master
-|- feat/auth-registration
-|- feat/auth-login
-|- feat/api-products
-|- feat/api-deliveries
-|- feat/api-orders
-|- feat/payment-simulation
-|- feat/frontend-catalogue
-|- feat/frontend-dashboard
-|- feat/frontend-tracking
-\- fix/...
-```
-
-| Prefixe | Usage |
-|---|---|
-| `feat/` | Nouvelle fonctionnalite |
-| `fix/` | Correction de bug |
-| `test/` | Tests uniquement |
-| `docs/` | Documentation |
-| `chore/` | Config, CI/CD |
-
----
 
 ## Repartition des responsabilites
 
@@ -177,7 +152,6 @@ master
 | Tests integration | API produits et livraisons |
 | BDD complete | Migrations + seed |
 | UML | Cas d'utilisation + sequence livraison + etats |
-| Bonus | WebSocket suivi temps reel |
 
 ---
 
