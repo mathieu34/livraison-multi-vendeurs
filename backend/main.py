@@ -1,15 +1,15 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import engine, Base
-from routers import products, deliveries
+from routers import auth, products, deliveries
 
-# Créer les tables au démarrage (si elles n'existent pas déjà)
+# Créer les tables au démarrage
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="Plateforme de Livraison Multi-Vendeurs",
-    description="API REST — Architecture n-tiers (Dev 2 : produits & livraisons)",
-    version="1.0.0",
+    description="API REST — Architecture n-tiers",
+    version="1.0.0"
 )
 
 app.add_middleware(
@@ -20,12 +20,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Dev 1 — authentification
+app.include_router(auth.router)
+
 # Dev 2 — produits et livraisons
 app.include_router(products.router)
 app.include_router(deliveries.router)
-
-# NOTE : le router /api/auth (Dev 1) sera ajouté lors du merge avec la branche bathy
-
 
 @app.get("/api/health")
 def health():

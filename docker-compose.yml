@@ -21,7 +21,7 @@ services:
     build: ./backend
     container_name: livraison_backend
     ports:
-      - "3000:3000"
+      - "8000:8000"
     environment:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/livraison_db
       JWT_SECRET: dev_secret_change_in_prod
