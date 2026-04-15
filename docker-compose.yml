@@ -7,7 +7,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - "5432:5432"
+      - "5434:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./database/migrations:/docker-entrypoint-initdb.d
@@ -21,7 +21,7 @@ services:
     build: ./backend
     container_name: livraison_backend
     ports:
-      - "8000:8000"
+      - "8000:3000"
     environment:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/livraison_db
       JWT_SECRET: dev_secret_change_in_prod
@@ -37,6 +37,8 @@ services:
     container_name: livraison_frontend
     ports:
       - "5173:5173"
+    environment:
+      VITE_API_TARGET: http://backend:3000
     volumes:
       - ./frontend:/app
       - /app/node_modules
