@@ -1,0 +1,22 @@
+# Serveur et Framework Web
+fastapi==0.110.0
+uvicorn[standard]==0.27.1
+
+# Base de données
+sqlalchemy==2.0.27
+psycopg2-binary==2.9.9
+alembic==1.13.1
+
+# Validation et Sécurité
+pydantic[email]==2.6.1
+python-multipart==0.0.9
+passlib[bcrypt]==1.7.4
+python-jose[cryptography]==3.3.0
+
+# Utilitaires
+python-dotenv==1.0.1
+
+# Tests
+pytest==8.1.1
+pytest-asyncio==0.23.6
+httpx==0.27.0
