@@ -2,6 +2,9 @@
 
 Architecture n-tiers - Cas pratique IPSSI
 
+## Membres du projet
+Voguie Bathy et Mathieu Ponnou
+
 ## Lancer le projet
 
 ### Demarrage rapide
